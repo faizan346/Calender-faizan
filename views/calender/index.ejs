@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calender</title>
+    <link rel="stylesheet" href="/stylesheets/app.css">
+</head>
+
+<body>
+    <div class="calender-container">
+        <div class="calender-todolist">
+            
+        </div>
+        <div class="calender-container-inner">
+            <div class="selection-container">
+                <select id="month-option" name="month">
+                    <option value="0">JAN</option>
+                    <option value="1">FEB</option>
+                    <option value="2">MAR</option>
+                    <option value="3">APR</option>
+                    <option value="4">MAY</option>
+                    <option value="5">JUN</option>
+                    <option value="6">JUL</option>
+                    <option value="7">AUG</option>
+                    <option value="8">SEP</option>
+                    <option value="9">OCT</option>
+                    <option value="10">NOV</option>
+                    <option value="11">DEC</option>
+                </select>
+                <select id="year-option" name="year">
+                    <% for(let i=1970 ; i <=2100 ; i++) {%>
+                        <option value=<%=`${i}` %> ><%=`${i}` %>
+                        </option>
+                        <% } %>
+
+                </select>
+            </div>
+            <table class="table-date">
+                <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                </tr>
+                <% for(let i=0 ; i < 5 ; i++) {%>
+                    <tr>
+                        <td>X</td>
+                        <td>X</td>
+                        <td>X</td>
+                        <td>X</td>
+                        <td>X</td>
+                        <td>X</td>
+                        <td>X</td>
+                    </tr>
+                    <% } %>
+            </table>
+        </div>
+    </div>
+
+    <script src='/javascripts/app.js'></script>
+</body>
+
+</html>

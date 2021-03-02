@@ -1,0 +1,63 @@
+body {
+    height: 100vh;
+    margin: 0px;
+    padding: 0px;
+    background-color: #ffefa1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center;
+    font-size: 1em;
+    border-radius: 30%;
+  }
+  .table-date {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 40%;
+    min-width: 300px;
+    margin-bottom: 50px;
+}
+select {
+    text-align: center;
+    padding: 0.5em;
+    width: 150px;
+    background-color: #f9f3f3;
+}
+
+.calender-container {
+    display: flex;
+    flex-direction: row;
+    background-color: azure;
+    height: 80%;
+    width: 86%;
+    border-radius: 2.5%;
+}
+.calender-todolist {
+    display: flex;
+    flex-basis: 40%;
+    min-width: 350px;
+    background-color: #e49e76;
+    border-radius: 2% 0% 0% 2%;
+    border
+}
+.calender-container-inner {
+  display: flex;
+  flex-basis: 60%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.selection-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+}
