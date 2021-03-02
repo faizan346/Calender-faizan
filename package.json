@@ -1,0 +1,22 @@
+{
+  "name": "calender-faizan",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faizan346/Calender-faizan.git"
+  },
+  "author": "Faizan Ansari",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/faizan346/Calender-faizan/issues"
+  },
+  "homepage": "https://github.com/faizan346/Calender-faizan#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
