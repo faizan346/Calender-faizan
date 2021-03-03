@@ -7,23 +7,23 @@ const TaskSchema = new mongoose.Schema({
     },
     time: {
         year: {
-            type: Number, 
+            type: String, 
             required: true
         },
         month: {
-            type: Number, 
+            type: String, 
             required: true
         },
         date: {
-            type: Number, 
+            type: String, 
             required: true
         },
         hour: {
-            type: Number, 
+            type: String, 
             required: true
         },
         minute: {
-            type: Number,
+            type: String,
             required: true
         }
     },
