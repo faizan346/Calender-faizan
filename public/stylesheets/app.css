@@ -9,63 +9,104 @@ body {
     box-sizing: border-box;
 }
 
-th, td {
+th, td ,td:hover{
     border: 1px solid black;
     padding: 5px;
     text-align: center;
     font-size: 1em;
-    border-radius: 30%;
   }
-  th {
-      background-color: cornsilk;
-  }
-  .table-date {
-    border-collapse: collapse;
-    table-layout: fixed;
-    width: 40%;
-    min-width: 300px;
-    margin-bottom: 50px;
-}
-select {
-    text-align-last: center;
-    font-weight: bold;
-    padding: 0.5em;
-    width: 150px;
-    background-color: #f0d1a0;
+
+td:hover {
+    background-color: #f7d9d9ca;
 }
 
-.calender-container {
-    display: flex;
-    flex-direction: row;
-    background-color: azure;
-    height: 80%;
-    width: 86%;
-    border-radius: 2.5%;
+th {
+    background-color: cornsilk;
+    width: calc(100%/7);
 }
-.calender-todolist {
-    display: flex;
-    flex-basis: 40%;
-    min-width: 350px;
-    background-color: #e49e76;
-    border-radius: 2% 0% 0% 2%;
-    border
-}
-.calender-container-inner {
-  display: flex;
-  flex-basis: 60%;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   
+select, option {
+    text-align-last:center;
+    font-weight: bold;
+    padding: 0.5em;
+    flex-grow: 1;
+    background-color: #f0d1a0;
 }
 
 .selection-container {
     display: flex;
     flex-direction: row;
-    width: 100%;
     justify-content: center;
+    width: 40%;
+    max-width: 400px;
+    min-width: 300px;
 }
 
 .color-date {
-    background-color: #f7d9d9;
+    border-radius: 30%;
+    background-color: #f8cfcf;
+}
+
+.table-date {
+    border-collapse: collapse;
+    width: 40%;
+    min-width: 300px;
+    max-width: 400px;
+    margin-bottom: 50px;
+}
+
+.calender-container {
+    display: flex;
+    background-color: azure;
+    height: 80%;
+    width: 86%;
+    min-width: 700px;
+    border-radius: 2.5%;
+}
+.calender-left-section {
+    display: flex;
+    flex-grow: 4.2;
+    flex-shrink: 1;
+    min-width: 360px;
+    max-width: 450px;
+    flex-direction: column;
+    background-color: #e49e76;
+    border-radius: 2% 0% 0% 2%;
+}
+
+.calender-right-section {
+    display: flex;
+    flex-grow: 5.8;
+    flex-shrink: 4;
+    min-width: 320px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  
+}
+
+.calender-clock {
+    height: 40%;
+    width: 100%;
+}
+.calender-todolist {
+    height: 60%;
+    width: 100%;
+}
+
+.form-add-task {
+    display: flex;
+    align-items: center;
+}
+
+input[type="text"] {
+    flex-grow: 1;
+}
+
+button, input{
+    height: 30px;
+    border: none;
+}
+button {
+    width: 60px;
 }

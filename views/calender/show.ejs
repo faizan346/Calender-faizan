@@ -11,10 +11,24 @@
 
 <body>
     <div class="calender-container">
-        <div class="calender-todolist">
-
+        <div class="calender-left-section">
+            <div class="calender-clock">
+                <h1>selecteddate:</h1>
+            </div>
+            <div class="calender-todlist">
+                <form id="submitForm" class="form-add-task"action="#" method="post">
+                    <input name="time" type="time" required>
+                    <input name="task" type="text" placeholder="Enter the task.." required>
+                    <button type="submit">Add</button>
+                </form>
+                <ul>
+                    <li>Coffee</li>
+                    <li>Tea</li>
+                    <li>Milk</li>
+                </ul>
+            </div>
         </div>
-        <div class="calender-container-inner">
+        <div class="calender-right-section">
             <div class="selection-container">
                 <select id="month-option" name="month">
                     <option value="0">JAN</option>
@@ -62,7 +76,10 @@
             </table>
         </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+            const postTaskPath = <%- JSON.stringify(path) %>;
+    </script>
     <script src='/javascripts/app.js'></script>
 </body>
 
