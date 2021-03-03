@@ -16,6 +16,9 @@ th, td {
     font-size: 1em;
     border-radius: 30%;
   }
+  th {
+      background-color: cornsilk;
+  }
   .table-date {
     border-collapse: collapse;
     table-layout: fixed;
@@ -24,10 +27,11 @@ th, td {
     margin-bottom: 50px;
 }
 select {
-    text-align: center;
+    text-align-last: center;
+    font-weight: bold;
     padding: 0.5em;
     width: 150px;
-    background-color: #f9f3f3;
+    background-color: #f0d1a0;
 }
 
 .calender-container {
@@ -60,4 +64,8 @@ select {
     flex-direction: row;
     width: 100%;
     justify-content: center;
+}
+
+.color-date {
+    background-color: #f7d9d9;
 }
