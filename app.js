@@ -9,7 +9,7 @@ const flash = require('connect-flash');
 const mongoose = require('mongoose');
 const Calender = require('./models/calender')
 const Task = require('./models/task')
-const User = require('./models/user')
+const User = require('./models/user');
 
 const dbUrl = 'mongodb://localhost:27017/calender';
 
@@ -59,8 +59,13 @@ app.get("/calender/:id", (req, res) => {
     res.render("calender/show", {path});
 })
 
-app.get('/calender/:id/task', (req,res) => {
+app.get('/calender/:id/task', async(req,res) => {
     //will send the yearly task. with this to current user calender
+    const calender = await Calender.findById(req.params.id).populate('tasks');
+    const tasks = calender.tasks.filter((task) => task.time.year == req.query.year );
+    console.log(tasks);
+    res.send(tasks);
+
 })
 app.post('/calender/:id/task', async(req,res) => {
     //adding in new task in the calender of current use

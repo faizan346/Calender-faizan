@@ -11,11 +11,11 @@ body {
 
 th, td ,td:hover{
     border: 1px solid black;
-    padding: 5px;
+    padding: 2px;
     text-align: center;
     font-size: 1em;
     height: 29px;
-  }
+}
 
 td {
     background-color: azure;
@@ -34,7 +34,7 @@ select, option {
     text-align-last:center;
     font-weight: bold;
     font-size: 0.9em;
-    padding: 0.8em;
+    padding: 0.6em;
     flex-grow: 1;
     background-color: #f0d1a0;
 }
@@ -116,4 +116,10 @@ button, input{
 }
 button {
     width: 60px;
+}
+
+li {
+    overflow-wrap: break-word;
+    width: 95%;
+    padding-bottom: 5px;
 }

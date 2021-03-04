@@ -1,22 +1,5 @@
-let taskYear = [{
-    date: 24,
-    year: 2020,
-    month: 3,
-    time: 235235252,
-    task: "sjdalfjsafls"
-},{
-    date: 24,
-    year: 2020,
-    month: 3,
-    time: 235235252,
-    task: "sjdalfjsafls"
-},{
-    date: 24,
-    year: 2020,
-    month: 3,
-    id: 235235252,
-    task: "sjdalfjsafls"
-}];
+
+let taskYear = [];
 const todayDate = new Date();
 let year = todayDate.getFullYear()
 let month = todayDate.getMonth()
@@ -30,20 +13,37 @@ const yearSelect = document.querySelector('#year-option')
 monthSelect.value = month;
 yearSelect.value = year;
 
+function sortedTask(month, date) {
+    let taskSelectedDate = taskYear.filter((task) => (task.time.month == month && task.time.date == date))
+    taskSelectedDate.sort((a,b) => {
+        if(a.time.hour < b.time.hour) return -1
+        else if(a.time.hour == b.time.hour && a.time.minute < b.time.minute)  return -1
+        else return 1;
+    })
+    return taskSelectedDate;
+}
+function setListOfTask(month, date) {
+    for(task of sortedTask(month, date)) {
+        const li = document.createElement('li')
+        li.value = task._id;
+        li.innerText = `${task.time.hour}:${task.time.minute} -${task.task}`;
+        ul.append(li);
+    }
+}
+async function getTasksThisYear(year) {
+    const res = await axios.get(`${calenderPath}/task?year=${year}`);
+    taskYear = res.data;
+    console.log(taskYear);
+}
+
+
 let dateClickHandler = function(e){
     selectedDate && selectedDate.classList.toggle("color-date")
     this.classList.toggle("color-date");
     selectedDate = this;
-    console.log(this.value);
     h1 = document.querySelector('h1');
     h1.innerText = `${this.value.year}/${this.value.month}/${this.value.date}`
-    let taskToday = taskYear.filter(task => task.date == this.value.date && task.month == this.value.month);
-    console.log(taskToday)
-    for(task in taskToday) {
-        const li = document.createElement("li");
-        li.innerText = taskToday[task].task;
-        ul.append(li);
-    } 
+    setListOfTask(selectedDate.value.month, selectedDate.value.date);
 }
 function yearMonthDateToString(y,m,d){
      y = y.toString();
@@ -73,7 +73,11 @@ const setCalender = (year, month, dateToday) => {
     else dateElements[dateStart].click();
 }
 
-setCalender(year, month, dateToday); //during landing on calender
+getTasksThisYear(year).then(() => {
+    setCalender(year, month, dateToday); //during landing on calender
+})
+.catch((e) => console.log("we messed", e))
+
 
 monthSelect.addEventListener('change', function(e){
     month = this.value;
@@ -83,8 +87,6 @@ yearSelect.addEventListener('change', function(e){
     year = this.value;
     setCalender(parseInt(year), parseInt(month));
 })
-
-
 
 
 function validateForm() {
@@ -106,9 +108,9 @@ async function postTask(timer, task) {
         },
         status: true
     }
-    let res = await axios.post(`${postTaskPath}/task`,taskObj);
-    console.log(res);
-    return res;
+    let res = await axios.post(`${calenderPath}/task`,taskObj);
+    console.log(res.data);
+    return res.data;
 }
 
 function buttonAddTask(e) {
@@ -116,7 +118,7 @@ function buttonAddTask(e) {
     if(!validateForm()) return ;
     let timer = formData["time"].value;
     let task = formData["task"].value;
-    postTask(timer, task).then(() => {
+    postTask(timer, task).then((restask) => {
         const li = document.createElement('li')
         li.innerText = task +"--"+ timer;
         console.dir(li)
@@ -125,3 +127,4 @@ function buttonAddTask(e) {
 
 }
 button.addEventListener('click', buttonAddTask);
+
