@@ -22,20 +22,50 @@ function sortedTask(month, date) {
     })
     return taskSelectedDate;
 }
-function setListOfTask(month, date) {
-    for(task of sortedTask(month, date)) {
-        const li = document.createElement('li')
-        li.value = task._id;
-        li.innerText = `${task.time.hour}:${task.time.minute} -${task.task}`;
-        ul.append(li);
+
+function emptyTaskList(){
+    const lists = document.querySelectorAll('li');
+    for(li of lists) {
+        li.remove();
     }
+}
+
+function setOneListItem(task) {
+    const li = document.createElement('li')
+        const cross = document.createElement('span');
+        li.innerText = `${task.time.hour}:${task.time.minute} -${task.task}`;
+        li.id = task._id;
+        cross.innerText = '✕';
+        cross.id = task._id;
+        li.prepend(cross);
+        if(!task.status) {
+            li.style.textDecoration = "line-through"
+            li.style.opacity = "0.5"
+        }
+        ul.append(li);
+}
+
+function setTransitionForList() {
+    ul.style.visibility = "hidden"
+    ul.style.opacity = "0"
+    setTimeout(() =>  {
+        ul.style.visibility = "visible"
+        ul.style.opacity = "1";
+    },400)
+}
+
+function setListOfTask(month, date) {
+    emptyTaskList();
+    for(task of sortedTask(month, date)) {
+        setOneListItem(task);
+    }
+    setTransitionForList();
 }
 async function getTasksThisYear(year) {
     const res = await axios.get(`${calenderPath}/task?year=${year}`);
     taskYear = res.data;
-    console.log(taskYear);
+    //console.log(taskYear);
 }
-
 
 let dateClickHandler = function(e){
     selectedDate && selectedDate.classList.toggle("color-date")
@@ -74,7 +104,7 @@ const setCalender = (year, month, dateToday) => {
 }
 
 getTasksThisYear(year).then(() => {
-    setCalender(year, month, dateToday); //during landing on calender
+    setCalender(year, month, dateToday); //during landing on calender 
 })
 .catch((e) => console.log("we messed", e))
 
@@ -85,7 +115,10 @@ monthSelect.addEventListener('change', function(e){
 })
 yearSelect.addEventListener('change', function(e){
     year = this.value;
-    setCalender(parseInt(year), parseInt(month));
+    getTasksThisYear(year).then(() => {
+        setCalender(parseInt(year), parseInt(month)); 
+    })
+    .catch((e) => console.log("we messed", e))
 })
 
 
@@ -118,13 +151,42 @@ function buttonAddTask(e) {
     if(!validateForm()) return ;
     let timer = formData["time"].value;
     let task = formData["task"].value;
-    postTask(timer, task).then((restask) => {
-        const li = document.createElement('li')
-        li.innerText = task +"--"+ timer;
-        console.dir(li)
-        ul.append(li);
+    postTask(timer, task).then((resTask) => {
+        setOneListItem(resTask)
     })
-
 }
 button.addEventListener('click', buttonAddTask);
 
+const updateTask = async(li) => {
+    let task = taskYear.find((task) => task._id === li.id)
+    let resTask = await axios.put(`${calenderPath}/task/${task._id}`, {status: !task.status})
+    task.status = !task.status;
+    if(!task.status){ 
+        li.style.textDecoration = "line-through"
+        li.style.opacity = "0.5"
+    }
+    else {
+        li.style.textDecoration = "none"
+        li.style.opacity = "1"
+    }
+    //console.log(resTask.data);
+}
+
+const deleteTaskAndGetTaskYear = async(span) => {
+    let res = await axios.delete(`${calenderPath}/task/${span.id}`)
+    console.log(res.data);
+    span.parentElement.remove();
+    taskYear = taskYear.filter((task) => task._id !== span.id);
+}
+
+const updateOrDeleteListItem = async(e) => {
+    console.log(e.target)
+    if(e.target.nodeName === 'LI') {
+        updateTask(e.target).catch(e => console.log("updateError", e));
+    }
+    else if(e.target.nodeName === 'SPAN') {
+        deleteTaskAndGetTaskYear(e.target).catch(e => console.log("deletionError", e))
+    }
+}
+
+ul.addEventListener('click', updateOrDeleteListItem)

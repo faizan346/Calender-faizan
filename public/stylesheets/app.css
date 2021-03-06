@@ -19,6 +19,7 @@ th, td ,td:hover{
 
 td {
     background-color: azure;
+    transition: all 0.25s;
 }
 
 td:hover {
@@ -59,6 +60,7 @@ select, option {
     min-width: 300px;
     max-width: 400px;
     margin-bottom: 50px;
+    cursor: pointer;
 }
 
 .calender-container {
@@ -72,7 +74,7 @@ select, option {
 }
 .calender-left-section {
     display: flex;
-    flex-grow: 4.2;
+    flex-basis: 42%;
     flex-shrink: 1;
     min-width: 360px;
     max-width: 450px;
@@ -83,7 +85,8 @@ select, option {
 
 .calender-right-section {
     display: flex;
-    flex-grow: 5.8;
+    flex-basis: 58%;
+    flex-grow: 1;
     flex-shrink: 4;
     min-width: 320px;
     flex-direction: column;
@@ -93,8 +96,11 @@ select, option {
 }
 
 .calender-clock {
+    display: flex;
     height: 40%;
     width: 100%;
+    justify-content: center;
+    align-items: flex-end;
 }
 .calender-todolist {
     height: 60%;
@@ -118,8 +124,40 @@ button {
     width: 60px;
 }
 
-li {
+li, li:hover {
     overflow-wrap: break-word;
     width: 95%;
-    padding-bottom: 5px;
+    margin-bottom: 5px;
+    padding: 3px 0px;
+    background-color: rgba(255, 255, 255, 0.411);
+    transition: all 0.125s;
+    cursor: pointer;
+}
+
+li:hover {
+    background-color: rgba(255, 255, 255, 0.600);
+    font-size: 1.010em;
+}
+
+ul {
+    transition: opacity 0.5s;
+    list-style: none;
+    padding-left: 30px;
+    opacity: 0;
+}
+span, span:hover {
+    display: inline-block;
+    text-align: center;
+    background-color: grey;
+    transition: all 0.3s;
+    color: white;
+    margin-left: -25px;
+    margin-right: 8px;
+    width: 20px;
+}
+
+span:hover {
+    font-size: 1.1em;
+    transform: rotate(90deg);
+    background-color: rgb(80, 79, 79);
 }

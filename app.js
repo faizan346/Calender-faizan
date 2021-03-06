@@ -10,6 +10,7 @@ const mongoose = require('mongoose');
 const Calender = require('./models/calender')
 const Task = require('./models/task')
 const User = require('./models/user');
+const calender = require("./models/calender");
 
 const dbUrl = 'mongodb://localhost:27017/calender';
 
@@ -19,8 +20,8 @@ mongoose.connect(dbUrl, {
     useUnifiedTopology: true,
     useFindAndModify: false
 })
-.then(() => console.log("Database Connected"))
-.catch((e) => console.log(e));
+    .then(() => console.log("Database Connected"))
+    .catch((e) => console.log(e));
 
 const app = express();
 
@@ -28,23 +29,23 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
 
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json());
 app.use(methodOverride('_method'))
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.get("/login", (req,res) => {
+app.get("/login", (req, res) => {
     //if logged in logged out
 })
-app.post("/login", (req,res) => {
+app.post("/login", (req, res) => {
     //ceate session using passport and redirect to respective calender
     res.redirect("/calender")
 })
 
-app.get("/register", (req,res) => {
+app.get("/register", (req, res) => {
     //ask for register pager if logged in loggout
 })
-app.post("/register", (req,res) => {
+app.post("/register", (req, res) => {
     //create calender and user and redirect to calender
     res.redirect("/calender")
 })
@@ -56,18 +57,17 @@ app.get("/calender", (req, res) => {
 app.get("/calender/:id", (req, res) => {
     //get calender page for user 
     const path = `/calender/${req.params.id}`;
-    res.render("calender/show", {path});
+    res.render("calender/show", { path });
 })
 
-app.get('/calender/:id/task', async(req,res) => {
+app.get('/calender/:id/task', async (req, res) => {
     //will send the yearly task. with this to current user calender
     const calender = await Calender.findById(req.params.id).populate('tasks');
-    const tasks = calender.tasks.filter((task) => task.time.year == req.query.year );
-    console.log(tasks);
+    const tasks = calender.tasks.filter((task) => task.time.year == req.query.year);
+    //console.log(tasks);
     res.send(tasks);
-
 })
-app.post('/calender/:id/task', async(req,res) => {
+app.post('/calender/:id/task', async (req, res) => {
     //adding in new task in the calender of current use
     const task = new Task(req.body)
     const calender = await Calender.findById(req.params.id)
@@ -77,8 +77,19 @@ app.post('/calender/:id/task', async(req,res) => {
     console.log(taskSave);
     res.send(taskSave);
 })
-app.delete('/calender/:id/task/:taskId', (req,res) => {
+app.put('/calender/:id/task/:taskId', async (req, res) => {
+    //update the task of given id 
+    const task = await Task.findByIdAndUpdate(req.params.taskId, { status: req.body.status })
+    //console.log(task);
+    res.send(task)
+})
+app.delete('/calender/:id/task/:taskId', async (req, res) => {
     //delete task of given id and also remove from calender
+    const { id, taskId } = req.params;
+    console.log(taskId);
+    await Calender.findByIdAndUpdate(id, { $pull: { tasks: taskId } })
+    let task = await Task.findByIdAndDelete(taskId)
+    res.send(task)
 })
 
 const port = 3000;
