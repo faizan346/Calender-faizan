@@ -153,7 +153,10 @@ function buttonAddTask(e) {
     let task = formData["task"].value;
     postTask(timer, task).then((resTask) => {
         setOneListItem(resTask)
+        taskYear.push(resTask);
     })
+    formData["time"].value = "";
+    formData["task"].value = "";
 }
 button.addEventListener('click', buttonAddTask);
 
