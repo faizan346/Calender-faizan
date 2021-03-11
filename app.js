@@ -75,11 +75,13 @@ function isLogin(req, res, next) {
     }
     res.redirect("/login")
 }
-function isAuthor(req, res, next) {
-    console.log(req.user)
-    next();
-    //if (req.params.id === req.user._id) return next();
-    //res.redirect(`/calender/${calender._id}`);
+async function isAuthor(req, res, next) {
+    let calender = await Calender.findById(req.params.id)
+    if (calender) {
+        if (calender.author.equals(req.user._id)) return next();
+    }
+    calender = await Calender.findOne({ author: req.user._id })
+    res.redirect(`/calender/${calender._id}`)
 }
 
 app.get("/login", (req, res) => {
@@ -88,8 +90,12 @@ app.get("/login", (req, res) => {
 app.post("/login", passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), async (req, res) => {
     //save user in session using passport and redirect to respective calender
     console.log(req.session);
-    const calender = await Calender.find({ author: req.user._id })
+    const calender = await Calender.findOne({ author: req.user._id })
     res.redirect(`/calender/${calender._id}`)
+})
+app.get("/logout", (req, res) => {
+    req.logOut();
+    res.redirect("/login");
 })
 
 app.get("/register", (req, res) => {
@@ -102,18 +108,21 @@ app.post("/register", async (req, res) => {
     const registerUser = await User.register(user, password);
     const calender = new Calender({ author: registerUser._id });
     await calender.save()
+    console.log(calender)
     req.login(registerUser, err => {
         if (err) return next(err);
         req.flash('success', 'Welcome to calender!');
+        console.log(calender._id, `/calender/${calender._id}`)
         res.redirect(`/calender/${calender._id}`);
     })
 })
 
-app.get("/calender", isLogin, isAuthor, (req, res) => {
+app.get("/calender", isLogin, async (req, res) => {
     //current session calender redirect;
+    const calender = await Calender.findOne({ author: req.user._id })
     res.redirect(`/calender/${calender._id}`)
 })
-app.get("/calender/:id", isLogin, (req, res) => {
+app.get("/calender/:id", isLogin, isAuthor, (req, res) => {
     //get calender page for user 
     const path = `/calender/${req.params.id}`;
     res.render("calender/show", { path });
