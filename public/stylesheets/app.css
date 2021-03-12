@@ -2,14 +2,14 @@ body {
     height: 100vh;
     margin: 0px;
     padding: 0px;
-    background-color: #ffefa1;
+    background: linear-gradient(to top, #c04848, #480048);
     display: flex;
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
 }
 
-th, td ,td:hover{
+th, td, td:hover {
     position: relative;
     border: 1px solid black;
     padding: 2px;
@@ -31,14 +31,14 @@ th {
     background-color: cornsilk;
     width: calc(100%/7);
 }
-  
+
 select, option {
-    text-align-last:center;
+    text-align-last: center;
     font-weight: bold;
     font-size: 0.9em;
     padding: 0.6em;
     flex-grow: 1;
-    background-color: #f0d1a0;
+    background-color: #eec583;
 }
 
 .selection-container {
@@ -51,7 +51,7 @@ select, option {
 }
 
 .color-date {
-    border-radius: 30%;
+    border-radius: 17px;
     background-color: #f8cfcf;
 }
 
@@ -60,7 +60,7 @@ select, option {
     width: 40%;
     min-width: 300px;
     max-width: 400px;
-    margin-bottom: 50px;
+    margin-bottom: 80px;
     cursor: pointer;
 }
 
@@ -70,39 +70,128 @@ select, option {
     height: 80%;
     width: 86%;
     min-width: 700px;
-    border-radius: 2.5%;
-    box-shadow: 0px 0px 28px 2px orange;
+    border-radius: 25px;
 }
+
 .calender-left-section {
     display: flex;
     flex-basis: 42%;
     flex-shrink: 1;
     min-width: 360px;
-    max-width: 450px;
+    max-width: 480px;
     flex-direction: column;
-    background-color: rgb(255, 216, 144);
-    border-radius: 2% 0% 0% 2%;
+    background: linear-gradient(to bottom, #fc4a1a, #f7b733);
+    border-radius: 25px 0% 0% 25px;
 }
 
 .calender-right-section {
     display: flex;
+    flex-direction: column;
     flex-basis: 58%;
     flex-grow: 1;
     flex-shrink: 4;
     min-width: 320px;
+}
+
+.wrap-calender {
+    display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-  
+    width: 100%;
+    margin: auto 0;
+}
+
+/* align-content work with wrap i think */
+
+.navbar-calender {
+    display: flex;
+    width: 96%;
+    margin: 0 auto;
+    border-bottom: 3px solid goldenrod;
+    font-size: 1.6em;
+    margin-top: 10px;
+    align-items: flex-end;
+}
+
+.navbar-calender p {
+    margin: 0px;
+    margin-right: auto;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 30ch;
+}
+
+.fa.fa-user {
+    padding-right: 5px;
+    color: goldenrod;
+}
+
+.fa.fa-bars {
+    padding: 10px;
+    color: goldenrod;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: block;
+    overflow: hidden;
+    position: absolute;
+    background-color: #f9f9f9;
+    height: 0px;
+    min-width: 120px;
+    right: -30px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    transition: height 0.4s;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    font-size: medium;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1
+}
+
+.dropdown:hover .dropdown-content {
+    height: 42px;
+}
+
+.dropdown:hover .fa.fa-bars {
+    background-color: rgba(0, 0, 0, 0.082);
 }
 
 .calender-clock {
     display: flex;
+    flex-wrap: wrap;
     height: 40%;
     width: 100%;
+    color: white;
     justify-content: center;
     align-items: flex-end;
+    align-content: flex-end;
+    border-top-left-radius: 25px;
+    background: center/cover no-repeat url(https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/night-and-day-amy-surprenant.jpg);
 }
+
+.h1-time {
+    text-align: center;
+    margin: 20px 35%;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+}
+
 .calender-todolist {
     height: 60%;
     width: 100%;
@@ -110,49 +199,79 @@ select, option {
 
 .form-add-task {
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.096);
 }
 
 input[type="text"] {
-    flex-grow: 1;
+    flex-basis: 75%;
+    border-right: 1px solid rgb(8, 8, 8);
+    border-left: 1px solid rgb(8, 8, 8);
+    padding-left: 5px;
 }
 
-button, input{
+input[type="time"] {
+    padding-left: 5px;
+    padding-right: 5px;
+    max-width: 80px;
+}
+
+button {
+    width: 50px;
+}
+
+button, input {
+    box-sizing: border-box;
     height: 30px;
     border: none;
-}
-button {
-    width: 60px;
+    background: inherit;
+    padding: 0px;
 }
 
-li, li:hover {
+button:hover, input:hover {
+    border-bottom: 2px black outset;
+}
+
+button:focus, input:focus {
+    outline: none;
+    box-shadow: 0 10px 6px -6px rgba(0, 0, 0, 0.384);
+}
+
+li {
     overflow-wrap: break-word;
     width: 95%;
     margin-bottom: 5px;
-    padding: 3px 0px;
-    background-color: rgba(255, 255, 255, 0.411);
+    padding: 3px 5px;
+    text-align: justify;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.55);
     transition: all 0.125s;
     cursor: pointer;
 }
 
 li:hover {
-    background-color: rgba(255, 255, 255, 0.600);
+    background-color: rgba(255, 255, 255, 0.7);
     font-size: 1.010em;
 }
 
 ul {
+    height: 85%;
+    margin-top: 8px;
     transition: opacity 0.5s;
     list-style: none;
     padding-left: 30px;
     opacity: 0;
+    overflow-y: scroll;
 }
-span, span:hover {
+
+span {
     display: inline-block;
     text-align: center;
-    background-color: grey;
-    transition: all 0.3s;
-    color: white;
-    margin-left: -25px;
+    transition: all 0.125s;
+    font-weight: bold;
+    color: black;
+    font-size: 1.1em;
+    margin-left: -30px;
     margin-right: 8px;
     width: 20px;
 }
@@ -161,10 +280,79 @@ span:hover {
     font-size: 1.1em;
     transform: rotate(90deg);
     background-color: rgb(80, 79, 79);
+    color: white;
 }
+
 .fa-circle {
     font-size: 8px;
     color: orange;
     position: absolute;
     top: 2px;
+}
+
+.effect7 {
+    position: relative;
+    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+.effect7:before, .effect7:after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    top: 0;
+    bottom: 0;
+    left: 10px;
+    right: 10px;
+    -moz-border-radius: 100px / 10px;
+    border-radius: 100px / 10px;
+}
+
+.effect7:after {
+    right: 10px;
+    left: auto;
+    -webkit-transform: skew(8deg) rotate(3deg);
+    -moz-transform: skew(8deg) rotate(3deg);
+    -ms-transform: skew(8deg) rotate(3deg);
+    -o-transform: skew(8deg) rotate(3deg);
+    transform: skew(8deg) rotate(3deg);
+}
+
+.effect1 {
+    -webkit-box-shadow: 0 10px 6px -6px #777;
+    -moz-box-shadow: 0 10px 6px -6px #777;
+    box-shadow: 0 10px 6px -6px #777;
+}
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+
+::-webkit-scrollbar-track {
+    background: inherit;
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 0, 0, 0.322);
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+::placeholder {
+    color: rgba(0, 0, 0, 0.733)
 }

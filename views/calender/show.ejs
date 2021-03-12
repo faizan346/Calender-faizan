@@ -5,74 +5,88 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="/stylesheets/app.css">
     <title>calender</title>
 </head>
 
 <body>
-    <div class="calender-container">
+    <div class="calender-container effect7">
         <div class="calender-left-section">
             <div class="calender-clock">
-                <h1>selecteddate:</h1>
+                <h1 class="h1-time"></h1>
+                <h1 class="h1-date">selecteddate:</h1>
             </div>
-            <div class="calender-todlist">
-                <form id="submitForm" class="form-add-task"action="#" method="post">
+            <div class="calender-todolist">
+                <form id="submitForm" class="form-add-task" action="#" method="post">
                     <input name="time" type="time" required>
                     <input name="task" type="text" placeholder="Enter the task.." autocomplete="off" required>
                     <button type="submit">Add</button>
                 </form>
-                <ul>
-                    
-                </ul>
+                <ul> </ul>
             </div>
         </div>
         <div class="calender-right-section">
-            <div class="selection-container">
-                <select id="month-option" name="month">
-                    <option value="0">JAN</option>
-                    <option value="1">FEB</option>
-                    <option value="2">MAR</option>
-                    <option value="3">APR</option>
-                    <option value="4">MAY</option>
-                    <option value="5">JUN</option>
-                    <option value="6">JUL</option>
-                    <option value="7">AUG</option>
-                    <option value="8">SEP</option>
-                    <option value="9">OCT</option>
-                    <option value="10">NOV</option>
-                    <option value="11">DEC</option>
-                </select>
-                <select id="year-option" name="year">
-                    <% for(let i=1970 ; i <=2100 ; i++) {%>
-                        <option value=<%=`${i}` %> ><%=`${i}` %>
-                        </option>
-                        <% } %>
-
-                </select>
+            <div class="navbar-calender">
+                <p><i class="fa fa-user"></i>
+                    <%= username %>
+                </p>
+                <div class="dropdown">
+                    <i class="fa fa-bars"></i>
+                    <div class="dropdown-content">
+                        <a href="/logout">LOGOUT</a>
+                    </div>
+                </div>
             </div>
-            <table class="table-date">
-                <tr>
-                    <th>Sun</th>
-                    <th>Mon</th>
-                    <th>Tue</th>
-                    <th>Wed</th>
-                    <th>Thu</th>
-                    <th>Fri</th>
-                    <th>Sat</th>
-                </tr>
-                <% for(let i=0 ; i < 6 ; i++) {%>
+            <div class="wrap-calender">
+                <div class="selection-container">
+                    <select id="month-option" name="month">
+                        <option value="0">JAN</option>
+                        <option value="1">FEB</option>
+                        <option value="2">MAR</option>
+                        <option value="3">APR</option>
+                        <option value="4">MAY</option>
+                        <option value="5">JUN</option>
+                        <option value="6">JUL</option>
+                        <option value="7">AUG</option>
+                        <option value="8">SEP</option>
+                        <option value="9">OCT</option>
+                        <option value="10">NOV</option>
+                        <option value="11">DEC</option>
+                    </select>
+                    <select id="year-option" name="year">
+                        <% for(let i=1970 ; i <=2100 ; i++) {%>
+                            <option value=<%=`${i}` %> ><%=`${i}` %>
+                            </option>
+                            <% } %>
+
+                    </select>
+                </div>
+                <table class="table-date effect1">
                     <tr>
-                        <td>X</td>
-                        <td>X</td>
-                        <td>X</td>
-                        <td>X</td>
-                        <td>X</td>
-                        <td>X</td>
-                        <td>X</td>
+                        <th>Sun</th>
+                        <th>Mon</th>
+                        <th>Tue</th>
+                        <th>Wed</th>
+                        <th>Thu</th>
+                        <th>Fri</th>
+                        <th>Sat</th>
                     </tr>
-                    <% } %>
-            </table>
+                    <% for(let i=0 ; i < 6 ; i++) {%>
+                        <tr>
+                            <td>X</td>
+                            <td>X</td>
+                            <td>X</td>
+                            <td>X</td>
+                            <td>X</td>
+                            <td>X</td>
+                            <td>X</td>
+                        </tr>
+                        <% } %>
+                </table>
+            </div>
+
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

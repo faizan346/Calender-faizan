@@ -33,10 +33,13 @@ function emptyTaskList() {
 function setOneListItem(task) {
     const li = document.createElement('li')
     const cross = document.createElement('span');
-    li.innerText = `${task.time.hour}:${task.time.minute} -${task.task}`;
+    const time = document.createElement('b');
+    time.innerText = `${task.time.hour}:${task.time.minute} |`
+    li.innerText = ` ${task.task}`;
     li.id = task._id;
     cross.innerText = '✕';
     cross.id = task._id;
+    li.prepend(time);
     li.prepend(cross);
     if (!task.status) {
         li.style.textDecoration = "line-through"
@@ -70,7 +73,7 @@ let dateClickHandler = function (e) {
     selectedDate && selectedDate.classList.toggle("color-date")
     this.classList.toggle("color-date");
     selectedDate = this;
-    h1 = document.querySelector('h1');
+    h1 = document.querySelector('.h1-date');
     h1.innerText = `${this.value.year}/${this.value.month}/${this.value.date}`
     setListOfTask(selectedDate.value.month, selectedDate.value.date);
 }
@@ -208,3 +211,12 @@ const updateOrDeleteListItem = async (e) => {
 }
 
 ul.addEventListener('click', updateOrDeleteListItem)
+
+function myTimer() {
+  const d = new Date();
+  const currTime = d.toLocaleTimeString();
+  document.querySelector(".h1-time").innerHTML = currTime;
+}
+
+let clockId = setInterval(myTimer, 1000);
+
