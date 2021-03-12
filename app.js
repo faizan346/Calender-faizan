@@ -124,8 +124,7 @@ app.get("/calender", isLogin, async (req, res) => {
 })
 app.get("/calender/:id", isLogin, isAuthor, (req, res) => {
     //get calender page for user 
-    const path = `/calender/${req.params.id}`;
-    res.render("calender/show", { path });
+    res.render("calender/show");
 })
 
 app.get('/calender/:id/task', isLogin, isAuthor, async (req, res) => {

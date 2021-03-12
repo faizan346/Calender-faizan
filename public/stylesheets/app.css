@@ -10,6 +10,7 @@ body {
 }
 
 th, td ,td:hover{
+    position: relative;
     border: 1px solid black;
     padding: 2px;
     text-align: center;
@@ -160,4 +161,10 @@ span:hover {
     font-size: 1.1em;
     transform: rotate(90deg);
     background-color: rgb(80, 79, 79);
+}
+.fa-circle {
+    font-size: 8px;
+    color: orange;
+    position: absolute;
+    top: 2px;
 }
