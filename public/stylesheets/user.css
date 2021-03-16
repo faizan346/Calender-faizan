@@ -1,0 +1,34 @@
+.background-apply {
+    height: 100vh;
+    position: relative;
+}
+
+.background-apply::before{
+    content: "";
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%; 
+    height: 100%;  
+    opacity: 0.6; 
+    z-index: -1;
+    background: center/cover no-repeat url(/images/kelly-sikkema--1_RZL8BGBM-unsplash.jpg);
+}
+
+.login-container {
+    position: relative;
+    max-width: 720px;
+}
+
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+}
+
+.btn-home {
+    margin-bottom: 10px;
+    width: 250px;
+    font-weight: bold;  
+}

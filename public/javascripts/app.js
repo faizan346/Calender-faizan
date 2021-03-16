@@ -6,7 +6,7 @@ let month = todayDate.getMonth()
 let dateToday = todayDate.getDate()
 let selectedDate;
 const ul = document.querySelector("ul");
-const button = document.querySelector('button')
+const button = document.querySelector('form button')
 const formData = document.forms["submitForm"];
 const monthSelect = document.querySelector('#month-option')
 const yearSelect = document.querySelector('#year-option')

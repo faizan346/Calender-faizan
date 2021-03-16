@@ -4,6 +4,7 @@ body {
     padding: 0px;
     background: linear-gradient(to top, #c04848, #480048);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
@@ -145,6 +146,7 @@ select, option {
     background-color: #f9f9f9;
     height: 0px;
     min-width: 120px;
+    text-align: center;
     right: -30px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     transition: height 0.4s;
@@ -164,7 +166,7 @@ select, option {
 }
 
 .dropdown:hover .dropdown-content {
-    height: 42px;
+    height: 84px;
 }
 
 .dropdown:hover .fa.fa-bars {
@@ -181,7 +183,7 @@ select, option {
     align-items: flex-end;
     align-content: flex-end;
     border-top-left-radius: 25px;
-    background: center/cover no-repeat url(https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/night-and-day-amy-surprenant.jpg);
+    background: center/cover no-repeat url(/images/day-night-tree.jpg);
 }
 
 .h1-time {
@@ -221,7 +223,6 @@ button {
 }
 
 button, input {
-    box-sizing: border-box;
     height: 30px;
     border: none;
     background: inherit;
@@ -229,12 +230,13 @@ button, input {
 }
 
 button:hover, input:hover {
-    border-bottom: 2px black outset;
+    border-bottom: 1px black outset;
 }
 
 button:focus, input:focus {
     outline: none;
-    box-shadow: 0 10px 6px -6px rgba(0, 0, 0, 0.384);
+    box-shadow: 0 10px 6px -6px rgba(0, 0, 0, 0.507);
+    border-bottom: 1px black outset;
 }
 
 li {
@@ -245,7 +247,7 @@ li {
     text-align: justify;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.55);
-    transition: all 0.125s;
+    transition: all 0.15s;
     cursor: pointer;
 }
 
@@ -267,7 +269,7 @@ ul {
 span {
     display: inline-block;
     text-align: center;
-    transition: all 0.125s;
+    transition: all 0.15s;
     font-weight: bold;
     color: black;
     font-size: 1.1em;
