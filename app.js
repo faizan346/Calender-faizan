@@ -9,15 +9,16 @@ const LocalStrategy = require('passport-local');
 const session = require('express-session');
 const flash = require('connect-flash');
 const mongoose = require('mongoose');
-const Calender = require('./models/calender')
 const mongoSanitize = require('express-mongo-sanitize');
-const Task = require('./models/task')
+const helmet = require('helmet');
 const User = require('./models/user');
 const MongoDBStore = require("connect-mongo").default;
 const ExpressError = require("./utils/ExpressError")
-const catchAsync = require("./utils/catchAsync")
-const { taskSchema } = require("./schemas")
-const dbUrl = 'mongodb://localhost:27017/calender';
+const calenderRoutes = require('./routes/calenders');
+const taskRoutes = require('./routes/tasks')
+const userRoutes = require('./routes/users')
+
+const dbUrl = process.env.DB_URL ||'mongodb://localhost:27017/calender';
 
 mongoose.connect(dbUrl, {
     useNewUrlParser: true,
@@ -28,11 +29,14 @@ mongoose.connect(dbUrl, {
     .then(() => console.log("Database Connected"))
     .catch((e) => console.log(e));
 
-const secret = "ILoveAnimeAndManga";
+const secret = process.env.SECRET;
 
 const store = MongoDBStore.create({
     mongoUrl: dbUrl,
     touchAfter: 24 * 60 * 60,
+    // crypto: {
+    //     secret
+    // }
 });
 
 store.on("error", function (e) {
@@ -67,6 +71,43 @@ app.use(mongoSanitize({
 
 app.use(session(sessionConfig));
 app.use(flash());
+app.use(helmet());
+
+const scriptSrcUrls = [
+    "https://stackpath.bootstrapcdn.com/",
+    "https://kit.fontawesome.com/",
+    "https://cdnjs.cloudflare.com/",
+    "https://cdn.jsdelivr.net",
+    "https://code.jquery.com/"
+];
+const styleSrcUrls = [
+    "https://kit-free.fontawesome.com/",
+    "https://stackpath.bootstrapcdn.com/",
+    "https://fonts.googleapis.com/",
+    "https://use.fontawesome.com/",
+];
+const fontSrcUrls = [
+    "https://stackpath.bootstrapcdn.com/font-awesome/"
+];
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: [],
+            connectSrc: ["'self'"],
+            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            workerSrc: ["'self'", "blob:"],
+            objectSrc: [],
+            imgSrc: [
+                "'self'",
+                "blob:",
+                "data:",
+            ],
+            fontSrc: ["'self'", ...fontSrcUrls],
+        },
+    })
+);
+
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
@@ -74,137 +115,16 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-function isLogin(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    req.flash('error', 'You must be signed in first!');
-    res.redirect("/login")
-}
-async function isAuthor(req, res, next) {
-    let calender = await Calender.findById(req.params.id)
-    if (calender) {
-        if (calender.author.equals(req.user._id)) return next();
-    }
-    calender = await Calender.findOne({ author: req.user._id })
-    req.flash('error', "you don't have permission to do that")
-    res.redirect(`/calender/${calender._id}`)
-}
-
-function validateTask(req, res, next) {
-    const { error } = taskSchema.validate(req.body);
-    console.log(req.body);
-    console.log(error)
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(msg, 400)
-    } else {
-        next();
-    }
-}
-
 app.use((req, res, next) => {
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
 })
 
-app.get("/", (req, res) => {
-    const Authenticated = req.isAuthenticated();
-    res.render("home", { Authenticated });
-})
 
-app.get("/login", (req, res) => {
-    res.render("user/login")
-})
-app.post("/login", passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), catchAsync(async (req, res) => {
-    //save user in session using passport and redirect to respective calender
-    console.log(req.session);
-    const calender = await Calender.findOne({ author: req.user._id })
-    req.flash('success', 'welcome back!');
-    res.redirect(`/calender/${calender._id}`)
-}))
-
-app.get("/logout", (req, res) => {
-    req.logOut();
-    req.flash('success', 'you are successfully logged out')
-    res.redirect("/");
-})
-
-app.get("/register", (req, res) => {
-    res.render("user/register")
-})
-app.post("/register", catchAsync(async (req, res, next) => {
-    //create calender and user and redirect to calender
-    try {
-        const { email, username, password } = req.body;
-        const user = new User({ email, username });
-        const registerUser = await User.register(user, password);
-        const calender = new Calender({ author: registerUser._id });
-        await calender.save()
-        console.log(calender)
-        req.login(registerUser, err => {
-            if (err) return next(err);
-            req.flash('success', 'Welcome to calender!');
-            console.log(calender._id, `/calender/${calender._id}`)
-            res.redirect(`/calender/${calender._id}`);
-        })
-    } catch(e) {
-        if(e.message.indexOf('E11000') != -1){
-            req.flash('error', "Email is already registered")
-        }
-        else {
-            req.flash('error', "username is already taken");
-        }
-        res.redirect('/register')
-        console.log(e);
-    }
-}))
-
-app.get("/calender", isLogin, catchAsync(async (req, res) => {
-    //current session calender redirect;
-    const calender = await Calender.findOne({ author: req.user._id })
-    res.redirect(`/calender/${calender._id}`)
-}))
-app.get("/calender/:id", isLogin, isAuthor, (req, res) => {
-    //get calender page for user 
-    const { username } = req.user;
-    res.render("calender/show", { username });
-})
-
-app.get('/calender/:id/task', isLogin, isAuthor, catchAsync(async (req, res) => {
-    //will send the yearly task. with this to current user calender
-    const calender = await Calender.findById(req.params.id).populate('tasks');
-    const tasks = calender.tasks.filter((task) => task.time.year == req.query.year);
-    res.send(tasks);
-}))
-app.post('/calender/:id/task', isLogin, isAuthor, validateTask, catchAsync(async (req, res) => {
-    //adding in new task in the calender of current use
-    const task = new Task(req.body)
-    const calender = await Calender.findById(req.params.id)
-    calender.tasks.push(task);
-    const taskSave = await task.save();
-    await calender.save();
-    console.log(taskSave);
-    res.send(taskSave);
-}))
-app.put('/calender/:id/task/:taskId', isLogin, isAuthor, catchAsync(async (req, res) => {
-    //update the task of given id 
-    if(typeof(req.body.status) === "boolean") {
-        const task = await Task.findByIdAndUpdate(req.params.taskId, { status: req.body.status })
-        res.send(task)
-    }
-    else {
-        next(new ExpressError("invalid input for task Status", 400));
-    }
-}))
-app.delete('/calender/:id/task/:taskId', isLogin, isAuthor, catchAsync(async (req, res) => {
-    //delete task of given id and also remove from calender
-    const { id, taskId } = req.params;
-    await Calender.findByIdAndUpdate(id, { $pull: { tasks: taskId } })
-    let task = await Task.findByIdAndDelete(taskId)
-    res.send(task)
-}))
+app.use('/', userRoutes)
+app.use('/calender', calenderRoutes)
+app.use('/calender/:id/task', taskRoutes)
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
@@ -216,7 +136,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err })
 })
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Serving on ${port}`)
 })
