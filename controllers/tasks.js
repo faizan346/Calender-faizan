@@ -16,7 +16,6 @@ module.exports.addNewTaskInCalender = async (req, res) => {
     calender.tasks.push(task);
     const taskSave = await task.save();
     await calender.save();
-    console.log(taskSave);
     res.send(taskSave);
 }
 

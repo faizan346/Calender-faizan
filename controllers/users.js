@@ -12,7 +12,6 @@ module.exports.renderLoginPage = (req, res) => {
 
 module.exports.loginUser = async (req, res) => {
     //save user in session using passport and redirect to respective calender
-    console.log(req.session);
     const calender = await Calender.findOne({ author: req.user._id })
     req.flash('success', 'welcome back!');
     res.redirect(`/calender/${calender._id}`)
