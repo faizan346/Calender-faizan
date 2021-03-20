@@ -2,7 +2,7 @@
 let taskYear = [];
 const todayDate = new Date();
 let year = todayDate.getFullYear()
-let month = todayDate.getMonth()
+let month = todayDate.getMonth() + 1
 let dateToday = todayDate.getDate()
 let selectedDate;
 const ul = document.querySelector("ul");
@@ -99,8 +99,8 @@ function toggleCircle(dateValue) {
 }
 const setCalender = (year, month, dateToday) => {
     let dateElements = document.querySelectorAll('td');
-    let dateStart = new Date(year, month, 1);
-    let dateEnd = new Date(year, month + 1, 0);
+    let dateStart = new Date(year, month - 1, 1);
+    let dateEnd = new Date(year, month - 1 + 1, 0);
     let date = 1;
     dateStart = dateStart.getDay();
 
@@ -126,7 +126,7 @@ const setCalender = (year, month, dateToday) => {
 getTasksThisYear(year).then(() => {
     setCalender(year, month, dateToday); //during landing on calender 
 })
-.catch((e) => console.log("we messed", e))
+    .catch((e) => console.log("we messed", e))
 
 
 monthSelect.addEventListener('change', function (e) {
@@ -138,7 +138,7 @@ yearSelect.addEventListener('change', function (e) {
     getTasksThisYear(year).then(() => {
         setCalender(parseInt(year), parseInt(month));
     })
-    .catch((e) => console.log("we messed", e))
+        .catch((e) => console.log("we messed", e))
 })
 
 
@@ -213,9 +213,9 @@ const updateOrDeleteListItem = async (e) => {
 ul.addEventListener('click', updateOrDeleteListItem)
 
 function myTimer() {
-  const d = new Date();
-  const currTime = d.toLocaleTimeString();
-  document.querySelector(".h1-time").innerHTML = currTime;
+    const d = new Date();
+    const currTime = d.toLocaleTimeString();
+    document.querySelector(".h1-time").innerHTML = currTime;
 }
 
 let clockId = setInterval(myTimer, 1000);

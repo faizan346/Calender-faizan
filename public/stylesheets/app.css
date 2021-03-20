@@ -71,6 +71,7 @@ select, option {
     height: 80%;
     width: 86%;
     min-width: 700px;
+    max-width: 1428px;
     border-radius: 25px;
 }
 
@@ -216,6 +217,7 @@ input[type="time"] {
     padding-left: 5px;
     padding-right: 5px;
     max-width: 80px;
+    min-width: 70px;
 }
 
 button {
