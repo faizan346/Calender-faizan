@@ -1,13 +1,22 @@
 body {
     height: 100vh;
+    width: 100vw;
     margin: 0px;
     padding: 0px;
     background: linear-gradient(to top, #c04848, #480048);
+    box-sizing: border-box;
+}
+
+.body {
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-sizing: border-box;
+    overflow-x: auto;
 }
 
 th, td, td:hover {

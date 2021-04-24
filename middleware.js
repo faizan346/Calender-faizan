@@ -3,7 +3,7 @@ const Calender = require('./models/calender')
 const ExpressError = require('./utils/ExpressError')
 
 module.exports.isLogin = function (req, res, next) {
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated()) {//check for req.user to determine the authentication
         return next();
     }
     req.flash('error', 'You must be signed in first!');

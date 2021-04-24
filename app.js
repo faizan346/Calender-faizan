@@ -109,11 +109,11 @@ app.use(
 );
 
 app.use(passport.initialize());
-app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
+app.use(passport.session());    //check for the passport field in session.s
+passport.use(new LocalStrategy(User.authenticate()));// strategy for login authentication. called when logging in.
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.serializeUser(User.serializeUser()); //if login successful it adds session.passport. with some unique key.
+passport.deserializeUser(User.deserializeUser());//it is called when the passport is inside session.to fill req obj with user.
 
 app.use((req, res, next) => {
     res.locals.success = req.flash('success');
