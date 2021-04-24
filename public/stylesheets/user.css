@@ -1,3 +1,7 @@
+p {
+    margin-bottom: 5px;
+}
+
 .background-apply {
     height: 100vh;
     position: relative;
