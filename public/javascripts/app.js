@@ -119,7 +119,7 @@ const setCalender = (year, month, dateToday) => {
             dateElements[i].innerText = ""
         }
     }
-    if (dateToday) dateElements[dateToday].click();
+    if (dateToday) dateElements[dateStart + dateToday - 1].click();
     else dateElements[dateStart].click();
 }
 
